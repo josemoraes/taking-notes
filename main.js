@@ -8,14 +8,16 @@ window.onload = () => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     let input = document.getElementById("note");
-    let note = NoteStorage.store(input.value);
-    BoardManager.attachNoteOnBoard(board, note);
-    input.value = "";
+    if (input.value.trim().length > 0) {
+      let note = NoteStorage.store(input.value);
+      BoardManager.attachNoteOnBoard(board, note);
+      input.value = "";
+    }
   });
 
   document.addEventListener("click", (event) => {
     if (
-      event.target &&
+      event.target.dataset.id &&
       event.target.dataset.id.includes("note") &&
       event.target.dataset.action === "delete"
     ) {

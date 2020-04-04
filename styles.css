@@ -26,6 +26,10 @@ main {
   background: #44475a;
   padding-bottom: 50px;
 }
+button {
+  border: none;
+  background: transparent;
+}
 main section {
   width: 500px;
 }
