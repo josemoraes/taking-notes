@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taking Notes</title>
+    <meta name="description" content="An app to take notes" />
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main>
+      <section id="add-section">
+        <form action="#" method="POST" id="add-note-form">
+          <textarea name="note" id="note" cols="30" rows="4"></textarea>
+          <button type="submit">Note</button>
+        </form>
+      </section>
+      <section id="notes"></section>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>
