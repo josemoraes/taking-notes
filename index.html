@@ -10,9 +10,12 @@
   <body>
     <main>
       <section id="add-section">
-        <form action="#" method="POST" id="add-note-form">
+        <form action="#" method="POST" id="add-note-form" data-action="store">
           <textarea name="note" id="note" cols="30" rows="4"></textarea>
-          <button type="submit">Note</button>
+          <div class="form-actions">
+            <button type="button" id="cancel">Cancel</button>
+            <button type="submit">Save</button>
+          </div>
         </form>
       </section>
       <section id="notes"></section>

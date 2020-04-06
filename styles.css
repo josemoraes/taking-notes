@@ -29,6 +29,7 @@ main {
 button {
   border: none;
   background: transparent;
+  cursor: pointer;
 }
 main section {
   width: 500px;
@@ -51,8 +52,15 @@ main section#add-section form {
   display: flex;
   flex-direction: column;
 }
-main section#add-section form button {
+main section#add-section form .form-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+main section#add-section form .form-actions button {
   background-color: #50fa7b;
+  flex: 1;
   height: 50px;
   font-size: 1.5em;
   color: #fff;
@@ -60,11 +68,22 @@ main section#add-section form button {
   transition: 0.2s all ease;
 }
 main section#add-section form button:hover {
-  background-color: #3ffb6f;
+  background-color: #20ef54;
+}
+
+main section#add-section form .form-actions button[type="button"] {
+  background-color: #ccc;
+}
+main section#add-section form .form-actions button[type="button"]:hover {
+  background-color: #bbb;
 }
 
 main section#add-section form textarea {
+  min-height: 76px;
+  min-width: 460px;
+  max-width: 460px;
   border: 1px solid #50fa7b;
+  border-bottom: none;
   padding: 5px 10px;
 }
 

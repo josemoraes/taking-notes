@@ -1,6 +1,8 @@
 window.onload = () => {
   const form = document.getElementById("add-note-form");
   const board = document.getElementById("notes");
+  const cancelButton = document.getElementById("cancel");
+
   NoteStorage.index().forEach((note) =>
     BoardManager.attachNoteOnBoard(board, note)
   );
@@ -8,14 +10,29 @@ window.onload = () => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     let input = document.getElementById("note");
-    if (input.value.trim().length > 0) {
-      let note = NoteStorage.store(input.value);
-      BoardManager.attachNoteOnBoard(board, note);
-      input.value = "";
+    if (event.target.dataset.action === "store") {
+      storeNote(input.value);
+    } else {
+      updateNote(event.target.dataset.id, input.value);
     }
+    clearNoteInputAndResetForm();
+  });
+  cancelButton.addEventListener("click", (event) => {
+    clearNoteInputAndResetForm();
+  });
+  document.addEventListener("click", (event) => {
+    deleteNote(event);
+    prepareEdit(event);
   });
 
-  document.addEventListener("click", (event) => {
+  function clearNoteInputAndResetForm() {
+    let input = document.getElementById("note");
+    let form = document.getElementById("add-note-form");
+    form.dataset.id = "";
+    form.dataset.action = "store";
+    input.value = "";
+  }
+  function deleteNote(event) {
     if (
       event.target.dataset.id &&
       event.target.dataset.id.includes("note") &&
@@ -25,7 +42,33 @@ window.onload = () => {
       NoteStorage.delete(id);
       BoardManager.detachNoteFromBoard(board, id);
     }
-  });
+  }
+  function prepareEdit(event) {
+    if (
+      event.target.dataset.id &&
+      event.target.dataset.id.includes("note") &&
+      event.target.dataset.action === "edit"
+    ) {
+      let form = document.getElementById("add-note-form");
+      let input = document.getElementById("note");
+      form.dataset.id = event.target.dataset.id;
+      form.dataset.action = "update";
+      input.value = NoteStorage.view(event.target.dataset.id).text;
+    }
+  }
+  function updateNote(id, value) {
+    if (value.trim().length > 0) {
+      BoardManager.detachNoteFromBoard(board, id);
+      let note = NoteStorage.update(id, value);
+      BoardManager.attachNoteOnBoard(board, note);
+    }
+  }
+  function storeNote(value) {
+    if (value.trim().length > 0) {
+      let note = NoteStorage.store(value);
+      BoardManager.attachNoteOnBoard(board, note);
+    }
+  }
 };
 
 const NoteStorage = {
@@ -38,13 +81,20 @@ const NoteStorage = {
   delete: (id) => {
     localStorage.removeItem(id);
   },
-  update: (id, text) => {},
+  update: (id, text) => {
+    let note = { id, text };
+    localStorage.setItem(id, JSON.stringify(note));
+    return note;
+  },
   index: () => {
     let noteKeys = Object.keys(localStorage).filter((key) =>
       key.includes("note")
     );
     let notes = noteKeys.map((key) => JSON.parse(localStorage.getItem(key)));
     return notes;
+  },
+  view: (id) => {
+    return JSON.parse(localStorage.getItem(id));
   },
 };
 
