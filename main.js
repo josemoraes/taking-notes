@@ -54,6 +54,7 @@ window.onload = () => {
       form.dataset.id = event.target.dataset.id;
       form.dataset.action = "update";
       input.value = NoteStorage.view(event.target.dataset.id).text;
+      input.focus();
     }
   }
   function updateNote(id, value) {
@@ -99,12 +100,22 @@ const NoteStorage = {
 };
 
 const BoardManager = {
+  getConfig: () => {
+    const config = {};
+    if (!config.converter) {
+      config.converter = new showdown.Converter();
+    }
+    return config;
+  },
   attachNoteOnBoard: (board, note) => {
+    let markdownTextToHtml = BoardManager.getConfig().converter.makeHtml(
+      note.text
+    );
     let noteToAttach =
       '<div class="card" data-id="' +
       note.id +
       '">' +
-      note.text +
+      markdownTextToHtml +
       '<div class="actions"><button type="button" data-id="' +
       note.id +
       '" data-action="edit" class="edit">Edit</button> <button type="button" data-id="' +

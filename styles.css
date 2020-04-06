@@ -1,6 +1,5 @@
 * {
   margin: 0;
-  padding: 0;
   outline: none;
 }
 html {
@@ -83,7 +82,6 @@ main section#add-section form textarea {
   min-width: 460px;
   max-width: 460px;
   border: 1px solid #50fa7b;
-  border-bottom: none;
   padding: 5px 10px;
 }
 
